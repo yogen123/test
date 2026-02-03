@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Very Important Question 💖</title>
+
+  <!-- Animate.css -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top, #ffd6e0, #ff8fab);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 💌 Name line */
+    h2 {
+      color: white;
+      font-size: 2rem;
+      margin-bottom: -0.5rem;
+      font-weight: 600;
+    }
+
+    /* 💖 Question */
+    h1 {
+      color: #fff;
+      font-size: 2.5rem;
+      margin: 0 0 35px 0;
+    }
+
+    /* Buttons row */
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      position: relative;
+    }
+
+    button {
+      padding: 12px 28px;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    #noBtn {
+      background: white;
+      color: #ff4d6d;
+    }
+
+    #message {
+      margin-top: 80px;
+      font-size: 22px;
+      color: white;
+      font-weight: bold;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    #yayGif {
+  display: none;
+  margin: 10px auto 0 auto; /* centers under question */
+  width: 180px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>  Pukuchuuuuuuuuuu 💌</h2>
+    <h1 class="animate__animated animate__pulse animate__infinite">
+      Will you be my Valentine? 💖
+    </h1>
+
+    <div class="btn-row">
+      <button id="yesBtn">Yes 💘</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
+
+    <img id="yayGif" src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif" alt="Yay!" />
+    <div id="message"></div>
+
+
+  </div>
+
+  <!-- Anime.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const message = document.getElementById("message");
+
+    // 😈 No button escapes
+    noBtn.addEventListener("mouseover", () => {
+      noBtn.style.position = "fixed";
+
+      const maxX = window.innerWidth - noBtn.offsetWidth;
+      const maxY = window.innerHeight - noBtn.offsetHeight;
+
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
+    });
+
+    // 💘 Yes clicked
+   const gif = document.getElementById("yayGif");
+
+    yesBtn.addEventListener("click", () => {
+    message.textContent = "YAYYY see you in mountains Puku 😌💖";
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    gif.style.display = "block";   // 🎉 show GIF
+    burstHearts();
+    });
+
+
+    // 💖 Floating background hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "💖";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.top = window.innerHeight + "px";
+      document.body.appendChild(heart);
+
+      anime({
+        targets: heart,
+        translateY: -window.innerHeight - 200,
+        translateX: () => anime.random(-50, 50),
+        duration: anime.random(4000, 7000),
+        easing: "easeOutQuad",
+        complete: () => heart.remove()
+      });
+    }
+
+    setInterval(createHeart, 400);
+
+   function burstHearts() {
+  let count = 0;
+
+  const interval = setInterval(() => {
+
+    // pick a random origin point on screen
+    const originX = Math.random() * window.innerWidth;
+    const originY = Math.random() * window.innerHeight;
+
+    for (let i = 0; i < 10; i++) {  // hearts per burst
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "💘";
+      heart.style.left = originX + "px";
+      heart.style.top = originY + "px";
+      document.body.appendChild(heart);
+
+      anime({
+        targets: heart,
+        translateX: anime.random(-250, 250),
+        translateY: anime.random(-250, 250),
+        scale: [1, 0],
+        duration: 1500,
+        easing: "easeOutExpo",
+        complete: () => heart.remove()
+      });
+    }
+
+    count++;
+    if (count > 14) clearInterval(interval); // how long fireworks last
+
+  }, 220); // speed between bursts
+}
+
+  </script>
+
+</body>
+</html>
